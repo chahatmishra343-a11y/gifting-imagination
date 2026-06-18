@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siffer Giftyy // The Celestial Gateway</title>
+    <title>SIFFER GIFTYY // The Eternal Token</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
         :root {
             --neon-pink: #ff007f;
             --neon-cyan: #00f0ff;
+            --gold: #ffd700;
         }
 
         * {
@@ -22,15 +24,25 @@
 
         body, html {
             width: 100%;
-            height: 100%;
             background-color: #020205;
-            overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Georgia', serif;
             color: #ffffff;
+            overflow-x: hidden;
         }
 
-        /* 3D Graphics Viewport Layer */
-        #webgl-container {
+        /* --- STAGE 1 & 2: INTRO AND TRANSITION VIEWPORTS --- */
+        #intro-viewport {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 100;
+            background: #020205;
+            overflow: hidden;
+        }
+
+        #webgl-intro-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -39,8 +51,7 @@
             z-index: 1;
         }
 
-        /* Premium Minimalist Interface Layer Overlay */
-        .interface-overlay {
+        .gateway-overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -51,210 +62,423 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 20px;
-            pointer-events: none; /* Let clicks pass into the 3D world below */
-        }
-
-        .header-brand {
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-        }
-
-        .center-cta {
+            padding: 60px 20px;
             text-align: center;
+        }
+
+        .brand-header {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .gateway-cta {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
-            pointer-events: auto; /* Re-enable clicks specifically for entering */
+            gap: 25px;
             cursor: pointer;
         }
 
         .poetic-prompt {
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            color: #fff;
-            opacity: 0.8;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            max-width: 80%;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            line-height: 1.8;
+            max-width: 600px;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
         }
 
-        .action-btn {
+        .unseal-btn {
             background: transparent;
             border: 1px solid rgba(255, 0, 127, 0.4);
             color: var(--neon-pink);
-            padding: 12px 30px;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            border-radius: 30px;
+            padding: 14px 35px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            border-radius: 40px;
             text-transform: uppercase;
             font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.15);
             transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.1);
         }
 
-        .center-cta:hover .action-btn {
+        .gateway-cta:hover .unseal-btn {
             background: var(--neon-pink);
             color: #000;
-            box-shadow: 0 0 25px var(--neon-pink);
-            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px var(--neon-pink);
+            transform: scale(1.05);
         }
 
-        .footer-metrics {
-            font-size: 0.65rem;
+        /* --- ANIME POWER TRANSITION LAYER --- */
+        #anime-transition-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            display: none;
+            background: radial-gradient(circle, #1a0b2e 0%, #020205 100%);
+        }
+
+        .anime-character {
+            position: absolute;
+            bottom: -50px;
+            height: 85vh;
+            opacity: 0;
+            z-index: 25;
+        }
+
+        #boy-char { left: -200px; }
+        #girl-char { right: -200px; transform: scaleX(1); }
+
+        .power-text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            font-family: 'Courier New', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: #ffffff;
+            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-pink);
+            opacity: 0;
+            z-index: 30;
+            text-align: center;
+        }
+
+        .energy-crack {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- STAGE 3: THE LIGHT VERTICAL ATELIER MAIN WEBSITE --- */
+        #main-vertical-scroll {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #fff5f5 0%, #eef7ff 50%, #fff9f0 100%);
+            color: #2b2b2b;
+            display: none; /* Revealed after energy shockwave finishes */
+            position: relative;
+            z-index: 10;
+        }
+
+        #webgl-main-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 11;
+            pointer-events: none;
+        }
+
+        .scroll-content-wrapper {
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 25px;
+        }
+
+        .scroll-section {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            margin-bottom: 15vh;
+            text-align: center;
+        }
+
+        .section-tag {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .poetic-header {
+            font-size: 2.2rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+        }
+
+        .poetic-body {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #555555;
+            max-width: 600px;
+        }
+
+        /* The Key Token Highlight Ring */
+        .token-key-box {
+            border: 2px dashed rgba(0, 240, 255, 0.4);
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .chamber-link {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.2);
+            color: #111;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+            border-bottom: 2px solid var(--neon-pink);
+            padding-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div id="webgl-container"></div>
-
-    <div class="interface-overlay">
-        <div class="header-brand">SYSTEM // SIFFER.GIFTYY.INIT</div>
+    <div id="intro-viewport">
+        <div id="webgl-intro-container"></div>
         
-        <div class="center-cta" onclick="triggerCinematicWarp()">
-            <p class="poetic-prompt">"A universe of floating thoughts, locked away just for you."</p>
-            <button class="action-btn">Unseal Reality</button>
+        <div class="gateway-overlay" id="gateway-ui">
+            <div class="brand-header">SYSTEM // SIFFER.GIFTYY.INIT</div>
+            <div class="gateway-cta" onclick="igniteAnimeWarp()">
+                <p class="poetic-prompt">"A universe of floating thoughts, locked away just for you."</p>
+                <button class="unseal-btn">Unseal Reality</button>
+            </div>
+            <div class="brand-header">[ WEBGL_CORE // ENGAGED ]</div>
         </div>
 
-        <div class="footer-metrics">[ WEBGL_CORE_CONNECTED // 60FPS ]</div>
+        <div id="anime-transition-container">
+            <svg id="boy-char" class="anime-character" viewBox="0 0 100 200">
+                <path d="M50,30 L30,90 L45,90 L35,160 L70,80 L52,80 Z" fill="#00f0ff"/>
+                <circle cx="50" cy="25" r="12" fill="#00f0ff"/>
+            </svg>
+            <svg id="girl-char" class="anime-character" viewBox="0 0 100 200">
+                <path d="M50,30 L30,90 L45,90 L35,160 L70,80 L52,80 Z" fill="#ff007f"/>
+                <circle cx="50" cy="25" r="12" fill="#ff007f"/>
+            </svg>
+            <div class="power-text" id="power-phrase">HERE WE GO.</div>
+            <div class="energy-crack" id="flash-bang"></div>
+        </div>
     </div>
 
+    <main id="main-vertical-scroll">
+        <div id="webgl-main-container"></div>
+
+        <div class="scroll-content-wrapper">
+            
+            <section class="scroll-section" id="sec-weaver">
+                <div class="section-tag">// The Weaver of Secrets</div>
+                <h1 class="poetic-header">If loving you were a bad investment, then I gladly accept bankruptcy.</h1>
+                <p class="poetic-body">Welcome to the inner vault. Every vector and letter here was spun directly from the source material of you.</p>
+            </section>
+
+            <section class="scroll-section" id="sec-key">
+                <div class="token-key-box">
+                    <div class="section-tag" style="color: var(--neon-cyan);">// The Matrix Key</div>
+                    <h1 class="poetic-header" style="font-size: 1.8rem;">A digital botanical token that lives entirely in a link.</h1>
+                    <p class="poetic-body">This parameter anchors your customized chambers together. It holds the coordinates to everything left behind.</p>
+                    <a href="#chambers" class="chamber-link">STEP INTO THE ATELIER →</a>
+                </div>
+            </section>
+
+            <section class="scroll-section" id="sec-historic">
+                <div class="section-tag">// Collected Fragments</div>
+                <h1 class="poetic-header">Once upon a time, people pressed flowers between pages.</h1>
+                <p class="poetic-body">And I was exactly 16 when I began collecting things. Collecting moments, shapes, and phrases, preserving them entirely inside this digital glass house.</p>
+            </section>
+
+            <section class="scroll-section" id="sec-source">
+                <div class="section-tag">// Source Material</div>
+                <h1 class="poetic-header" style="font-style: italic;">"Before you, the world was merely a place. After you, it became source material."</h1>
+            </section>
+
+        </div>
+    </main>
+
     <script>
-        // --- THREE.JS INITIALIZATION ARCHITECTURE ---
-        const container = document.getElementById('webgl-container');
-        const scene = new THREE.Scene();
-        
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.z = 5;
+        gsap.registerPlugin(ScrollTrigger);
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
+        // --- ENGINE 1: 3D SPACE GATEWAY (THREE.JS) ---
+        const introContainer = document.getElementById('webgl-intro-container');
+        const introScene = new THREE.Scene();
+        const introCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+        introCamera.position.z = 5;
 
-        // --- BACKGROUND COSMIC NEBULA SPACE SYSTEM ---
-        const particleCount = 2500;
-        const particleGeometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
+        const introRenderer = new THREE.WebGLRenderer({ antialias: true });
+        introRenderer.setSize(window.innerWidth, window.innerHeight);
+        introRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        introContainer.appendChild(introRenderer.domElement);
 
-        for (let i = 0; i < particleCount * 3; i += 3) {
-            // Scatter space data maps
-            positions[i] = (Math.random() - 0.5) * 12;
-            positions[i+1] = (Math.random() - 0.5) * 12;
-            positions[i+2] = (Math.random() - 0.5) * 8;
+        // Ambient Dark Stardust Array
+        const pCount = 1500;
+        const pGeom = new THREE.BufferGeometry();
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) { pPos[i] = (Math.random() - 0.5) * 10; }
+        pGeom.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ size: 0.03, color: 0xff007f, transparent: true, opacity: 0.6 });
+        const stars = new THREE.Points(pGeom, pMat);
+        introScene.add(stars);
 
-            // Fluid palette mixing (Neon Pinks fading down to soft Cyans)
-            const mix = Math.random();
-            colors[i] = mix > 0.4 ? 1.0 : 0.0;     // R
-            colors[i+1] = mix > 0.4 ? 0.0 : 0.85;   // G
-            colors[i+2] = mix > 0.4 ? 0.5 : 1.0;    // B
+        // Centered Polyhedral Crypto Crystal Box
+        const crystalGeom = new THREE.IcosahedronGeometry(0.9, 1);
+        const crystalMat = new THREE.MeshBasicMaterial({ color: 0xff007f, wireframe: true, transparent: true, opacity: 0.3 });
+        const crystal = new THREE.Mesh(crystalGeom, crystalMat);
+        introScene.add(crystal);
+
+        function animateIntro() {
+            if (introRenderer) {
+                requestAnimationFrame(animateIntro);
+                const time = Date.now() * 0.001;
+                crystal.rotation.y = time * 0.2;
+                crystal.position.y = Math.sin(time * 1.5) * 0.1;
+                stars.rotation.z = time * 0.01;
+                introRenderer.render(introScene, introCamera);
+            }
+        }
+        animateIntro();
+
+        // --- ENGINE 2: ANIME WARP INTERACTION SYSTEM ---
+        function igniteAnimeWarp() {
+            // Fade out initial overlay setup UI
+            gsap.to('#gateway-ui', { opacity: 0, y: -40, duration: 0.6 });
+            
+            // Shrink down initial crystal box
+            gsap.to(crystal.scale, { x: 0, y: 0, z: 0, duration: 0.5 });
+
+            setTimeout(() => {
+                document.getElementById('anime-transition-container').style.display = 'block';
+                
+                // WALK ANIMATION: Characters glide in forcefully from sides
+                gsap.to('#boy-char', { left: '15%', opacity: 1, duration: 1.2, ease: "power3.out" });
+                gsap.to('#girl-char', { right: '15%', opacity: 1, duration: 1.2, ease: "power3.out" });
+
+                // Text phrase pops up intensely
+                gsap.to('#power-phrase', { 
+                    opacity: 1, scale: 1, duration: 0.8, delay: 0.6, ease: "back.out(1.7)",
+                    onComplete: () => {
+                        // TRIGGER THE EXPLOSION SHOCKWAVE
+                        gsap.to('#flash-bang', {
+                            opacity: 1, duration: 0.1, yoyo: true, repeat: 3,
+                            onComplete: () => {
+                                // Wipe out Stage 1 viewport entirely
+                                document.getElementById('intro-viewport').style.display = 'none';
+                                initMainVerticalSite();
+                            }
+                        });
+                    }
+                });
+            }, 500);
         }
 
-        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        // --- ENGINE 3: THE MAIN VERTICAL LIGHT ROOM SCROLL ---
+        let mainScene, mainCamera, mainRenderer, giftBox;
 
-        // Create sleek circular laser stardust materials
-        const pCanvas = document.createElement('canvas'); pCanvas.width = 16; pCanvas.height = 16;
-        const pCtx = pCanvas.getContext('2d');
-        const grad = pCtx.createRadialGradient(8, 8, 0, 8, 8, 8);
-        grad.addColorStop(0, 'rgba(255,255,255,1)');
-        grad.addColorStop(0.3, 'rgba(255,0,127,0.6)');
-        grad.addColorStop(1, 'rgba(0,0,0,0)');
-        pCtx.fillStyle = grad; pCtx.fillRect(0, 0, 16, 16);
-        const pTexture = new THREE.CanvasTexture(pCanvas);
+        function initMainVerticalSite() {
+            document.getElementById('main-vertical-scroll').style.display = 'block';
+            
+            // Build the light-room WebGL context
+            const mainContainer = document.getElementById('webgl-main-container');
+            mainScene = new THREE.Scene();
+            mainCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+            mainCamera.position.z = 5;
 
-        const particleMaterial = new THREE.PointsMaterial({
-            size: 0.05, map: pTexture, vertexColors: true,
-            transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
-        });
+            mainRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            mainRenderer.setSize(window.innerWidth, window.innerHeight);
+            mainContainer.appendChild(mainRenderer.domElement);
 
-        const starField = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(starField);
+            // Create a gorgeous 3D Geometric Gift Box
+            const boxGroup = new THREE.Group();
+            const lowerGeom = new THREE.BoxGeometry(1.2, 1.0, 1.2);
+            const boxMat = new THREE.MeshBasicMaterial({ color: 0xff007f, wireframe: true });
+            const lowerMesh = new THREE.Mesh(lowerGeom, boxMat);
+            boxGroup.add(lowerMesh);
 
-        // --- CENTERPIECE: THE 3D VELVET CRYPTO BOX ---
-        const boxGeometry = new THREE.IcosahedronGeometry(0.8, 1); // Premium polygon look instead of a basic square box
-        const boxMaterial = new THREE.MeshBasicMaterial({
-            color: 0xff007f,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.4
-        });
-        const cryptoBox = new THREE.Mesh(boxGeometry, boxMaterial);
-        scene.add(cryptoBox);
+            // Separate lid geometry so we can open it live on scroll!
+            const lidGeom = new THREE.BoxGeometry(1.3, 0.3, 1.3);
+            const lidMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true });
+            const lidMesh = new THREE.Mesh(lidGeom, lidMat);
+            lidMesh.position.y = 0.65;
+            boxGroup.add(lidMesh);
 
-        // Inner white-hot plasma nucleus thread
-        const coreGeometry = new THREE.IcosahedronGeometry(0.3, 0);
-        const coreMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
-        const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
-        cryptoBox.add(coreMesh);
+            mainScene.add(boxGroup);
 
-        // --- PHYSICS ANIMATION LOOP RUNTIME ---
-        const clock = new THREE.Clock();
+            function animateMain() {
+                requestAnimationFrame(animateMain);
+                boxGroup.rotation.y += 0.005;
+                mainRenderer.render(mainScene, mainCamera);
+            }
+            animateMain();
 
-        function renderEngineTick() {
-            requestAnimationFrame(renderEngineTick);
-            const time = clock.getElapsedTime();
-
-            // Zero-gravity lazy rotation loops
-            cryptoBox.rotation.y = time * 0.3;
-            cryptoBox.rotation.x = time * 0.15;
-            cryptoBox.position.y = Math.sin(time * 1.5) * 0.12; // Floating bounce amplitude
-
-            // Drift the starfield back maps slowly
-            starField.rotation.z = time * 0.02;
-
-            renderer.render(scene, camera);
-        }
-        renderEngineTick();
-
-        // --- GSAP HIGH-END CINEMATIC WARP EXPLOSION TRIGGER ---
-        let isWarping = false;
-
-        function triggerCinematicWarp() {
-            if (isWarping) return;
-            isWarping = true;
-
-            // 1. Fade out the text titles cleanly
-            gsap.to('.interface-overlay', {
-                opacity: 0, duration: 0.8, y: -30, ease: "power4.in"
+            // GSAP SCROLLTRIGGER PIPELINE FOR LONG PAGE SECTIONS
+            const sections = document.querySelectorAll('.scroll-section');
+            sections.forEach((sec, idx) => {
+                gsap.to(sec, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: sec,
+                        start: "top 75%",
+                        end: "top 25%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
             });
 
-            // 2. Animate the 3D centerpiece collapsing inwards before the explosion
-            gsap.to(cryptoBox.scale, {
-                x: 0.1, y: 0.1, z: 0.1, duration: 0.4, ease: "back.in(2)",
-                onComplete: () => {
-                    // Make it invisible once it collapses down completely
-                    cryptoBox.visible = false;
+            // LIVE SCROLL DRIVEN ANIMATION: Open the 3D Gift box lid as you scroll down the page!
+            gsap.to(lidMesh.position, {
+                y: 2.5,
+                x: 1.0,
+                scrollTrigger: {
+                    trigger: "#main-vertical-scroll",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true
                 }
             });
-
-            // 3. THE WARP ENGINE BURST: Accelerate camera depth right through the stardust field!
-            gsap.to(camera.position, {
-                z: -5, duration: 2.2, ease: "power4.inOut",
-                onUpdate: () => {
-                    // Pull the starfield rotation into hyperspeed as the camera speeds through
-                    starField.rotation.y += 0.05;
-                },
-                onComplete: () => {
-                    // This is where Phase 2 initiates! We wipe background data or relocate windows.
-                    document.body.style.backgroundColor = "#000";
-                    alert("THE MATRIX UNSEALED: Ready to load the Atelier Room!");
+            gsap.to(boxGroup.rotation, {
+                z: 2.0,
+                scrollTrigger: {
+                    trigger: "#main-vertical-scroll",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true
                 }
             });
         }
 
-        // Window resize event controller matrix
+        // Global layout adjustment handler
         window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            if(introRenderer) {
+                introCamera.aspect = window.innerWidth / window.innerHeight;
+                introCamera.updateProjectionMatrix();
+                introRenderer.setSize(window.innerWidth, window.innerHeight);
+            }
+            if(mainRenderer) {
+                mainCamera.aspect = window.innerWidth / window.innerHeight;
+                mainCamera.updateProjectionMatrix();
+                mainRenderer.setSize(window.innerWidth, window.innerHeight);
+            }
         });
     </script>
 </body>
