@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIFFER GIFTYY // The Eternal Token</title>
+    <title>CIPHER GIFTYY // The Eternal Archive</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
         :root {
+            --pastel-pink: #ffeef2;
+            --pastel-blue: #eef7ff;
+            --pastel-peach: #fff3eb;
             --neon-pink: #ff007f;
             --neon-cyan: #00f0ff;
-            --gold: #ffd700;
+            --gold: #d4af37;
+            --charcoal: #232329;
         }
 
         * {
@@ -24,95 +27,96 @@
 
         body, html {
             width: 100%;
-            background-color: #020205;
             font-family: 'Georgia', serif;
-            color: #ffffff;
+            background-color: #05050a;
+            color: var(--charcoal);
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* --- STAGE 1 & 2: INTRO AND TRANSITION VIEWPORTS --- */
-        #intro-viewport {
+        /* --- STAGE 1 & 2: INTRO AND ANIME TRANSITION GATEWAY --- */
+        #gateway-viewport {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: 100;
-            background: #020205;
+            background: linear-gradient(135deg, #070714 0%, #020205 100%);
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        #webgl-intro-container {
+        /* Ambient floating stardust background dots */
+        .ambient-glow-layer {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
+            background-image: radial-gradient(rgba(255, 0, 127, 0.15) 1px, transparent 0),
+                              radial-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 0);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            animation: drift 20s linear infinite;
             z-index: 1;
         }
 
-        .gateway-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        @keyframes drift {
+            from { background-position: 0 0, 20px 20px; }
+            to { background-position: 40px 40px, 60px 60px; }
+        }
+
+        .gateway-card {
+            position: relative;
             z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 60px 20px;
             text-align: center;
-        }
-
-        .brand-header {
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 5px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .gateway-cta {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-            cursor: pointer;
-        }
-
-        .poetic-prompt {
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            line-height: 1.8;
+            padding: 40px;
             max-width: 600px;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
         }
 
-        .unseal-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 0, 127, 0.4);
-            color: var(--neon-pink);
-            padding: 14px 35px;
+        .main-brand-title {
             font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            border-radius: 40px;
-            text-transform: uppercase;
+            font-size: 2.2rem;
+            letter-spacing: 12px;
+            color: #ffffff;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .gateway-quote {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .arc-btn {
+            background: transparent;
+            border: 2px solid rgba(255, 0, 127, 0.5);
+            color: #ffffff;
+            padding: 16px 50px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            letter-spacing: 6px;
             font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.15);
-            transition: all 0.3s ease;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .gateway-cta:hover .unseal-btn {
+        .arc-btn:hover {
             background: var(--neon-pink);
-            color: #000;
-            box-shadow: 0 0 30px var(--neon-pink);
-            transform: scale(1.05);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 40px var(--neon-pink);
+            transform: scale(1.1);
         }
 
-        /* --- ANIME POWER TRANSITION LAYER --- */
-        #anime-transition-container {
+        /* --- ANIME POWER LAYER SETUP --- */
+        #anime-shockwave-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -120,40 +124,39 @@
             height: 100%;
             z-index: 20;
             display: none;
-            background: radial-gradient(circle, #1a0b2e 0%, #020205 100%);
+            background: radial-gradient(circle, #fff5f7 0%, #eef9ff 100%);
         }
 
-        .anime-character {
+        .anime-vector {
             position: absolute;
-            bottom: -50px;
-            height: 85vh;
+            bottom: -100px;
+            height: 90vh;
+            width: auto;
             opacity: 0;
             z-index: 25;
         }
 
-        #boy-char { left: -200px; }
-        #girl-char { right: -200px; transform: scaleX(1); }
+        #anime-boy { left: -300px; }
+        #anime-girl { right: -300px; }
 
-        .power-text {
+        .here-we-go-banner {
             position: absolute;
-            top: 40%;
+            top: 45%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.5);
+            transform: translate(-50%, -50%) scale(0.3);
             font-family: 'Courier New', monospace;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
-            letter-spacing: 8px;
-            color: #ffffff;
-            text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-pink);
+            letter-spacing: 10px;
+            color: var(--charcoal);
+            text-shadow: 0 0 30px rgba(255,0,127,0.4), 0 0 60px rgba(0,240,255,0.4);
             opacity: 0;
             z-index: 30;
             text-align: center;
         }
 
-        .energy-crack {
+        .color-burst-wipe {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             background: #ffffff;
@@ -162,324 +165,351 @@
             pointer-events: none;
         }
 
-        /* --- STAGE 3: THE LIGHT VERTICAL ATELIER MAIN WEBSITE --- */
-        #main-vertical-scroll {
+        /* --- STAGE 3: VERTICAL LIGHT CANNES WEBPAGE --- */
+        #main-vertical-archive {
             width: 100%;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #fff5f5 0%, #eef7ff 50%, #fff9f0 100%);
-            color: #2b2b2b;
-            display: none; /* Revealed after energy shockwave finishes */
+            display: none; /* Revealed cleanly after blast */
+            background: linear-gradient(180deg, var(--pastel-pink) 0%, var(--pastel-blue) 40%, var(--pastel-peach) 80%, #ffffff 100%);
             position: relative;
             z-index: 10;
         }
 
-        #webgl-main-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 11;
-            pointer-events: none;
-        }
-
-        .scroll-content-wrapper {
-            position: relative;
-            z-index: 20;
+        .content-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
-            padding: 100px 25px;
+            padding: 80px 24px;
         }
 
-        .scroll-section {
-            min-height: 90vh;
+        /* Generic Section Base Settings */
+        .archive-section {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            transform: translateY(50px);
-            margin-bottom: 15vh;
+            position: relative;
+            margin-bottom: 10vh;
+        }
+
+        .section-label {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 30px;
+        }
+
+        /* --- SECTION 1: THE ROYAL SCROLL PARCHMENT ARCHITECTURE --- */
+        .scroll-viewport {
+            width: 100%;
+            max-width: 700px;
+            background: #fffdf9;
+            border-left: 4px double rgba(212, 175, 55, 0.3);
+            border-right: 4px double rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+            border-radius: 8px;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Royal Roller Bars */
+        .scroll-roller {
+            position: absolute;
+            left: 5%;
+            width: 90%;
+            height: 12px;
+            background: linear-gradient(90deg, #664614 0%, #b8860b 50%, #664614 100%);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 5;
+        }
+        .roller-top { top: 10px; }
+        .roller-bottom { bottom: 10px; }
+
+        .poem-wrapper {
             text-align: center;
         }
 
-        .section-tag {
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: var(--neon-pink);
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-bottom: 20px;
+        .poem-line {
+            font-size: 1.4rem;
+            line-height: 2;
+            color: #2b2b2b;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
         }
 
-        .poetic-header {
-            font-size: 2.2rem;
+        .poem-line.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- SECTION 2: THE WEAVER OF SECRETS ARCHIVE --- */
+        .weaver-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 60px 45px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .weaver-prose {
+            font-size: 1.25rem;
+            line-height: 2;
+            color: #3a3a42;
+            margin-bottom: 30px;
             font-weight: 400;
-            line-height: 1.5;
-            color: #1a1a1a;
-            margin-bottom: 25px;
         }
 
-        .poetic-body {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            color: #555555;
-            max-width: 600px;
-        }
-
-        /* The Key Token Highlight Ring */
-        .token-key-box {
-            border: 2px dashed rgba(0, 240, 255, 0.4);
-            padding: 30px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-        }
-
-        .chamber-link {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: #111;
+        .brand-welcome-accent {
+            font-size: 2rem;
             font-weight: bold;
-            text-decoration: none;
-            margin-top: 20px;
-            display: inline-block;
-            border-bottom: 2px solid var(--neon-pink);
-            padding-bottom: 5px;
+            color: #1a1a1f;
+            margin: 40px 0;
+            letter-spacing: 2px;
+        }
+
+        /* The Shimmering Apex Navigation Mechanism */
+        .apex-portal-anchor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .apex-btn {
+            background: #111115;
+            color: #ffffff;
+            border: none;
+            padding: 18px 55px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 8px;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .apex-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255, 0, 127, 0.3);
+            background: var(--neon-pink);
+        }
+
+        .apex-subtext {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: #666670;
+            letter-spacing: 1px;
+            max-width: 80%;
+            line-height: 1.6;
+        }
+
+        /* --- SECTION 3: EVIDENCE OF ATTENTION CHASSIS --- */
+        .attention-layout {
+            text-align: center;
+            max-width: 750px;
+        }
+
+        .attention-statement {
+            font-size: 1.6rem;
+            line-height: 1.9;
+            color: #1a1a1f;
+            font-weight: 400;
+            margin-bottom: 45px;
+        }
+
+        /* --- IMMERSIVE MASTER FOOTER LOGIC --- */
+        .master-vault-footer {
+            width: 100%;
+            padding: 120px 20px 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .footer-longing-signature {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: #7c7c8a;
+            line-height: 1.8;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
 
-    <div id="intro-viewport">
-        <div id="webgl-intro-container"></div>
-        
-        <div class="gateway-overlay" id="gateway-ui">
-            <div class="brand-header">SYSTEM // SIFFER.GIFTYY.INIT</div>
-            <div class="gateway-cta" onclick="igniteAnimeWarp()">
-                <p class="poetic-prompt">"A universe of floating thoughts, locked away just for you."</p>
-                <button class="unseal-btn">Unseal Reality</button>
-            </div>
-            <div class="brand-header">[ WEBGL_CORE // ENGAGED ]</div>
+    <div id="gateway-viewport">
+        <div class="ambient-glow-layer"></div>
+        <div class="gateway-card">
+            <h1 class="main-brand-title">CIPHER GIFTYY</h1>
+            <p class="gateway-quote">"A digital botanical token that lives entirely in a link."</p>
+            <button class="arc-btn" onclick="triggerAnimeShockwave()">[ ARC ]</button>
         </div>
 
-        <div id="anime-transition-container">
-            <svg id="boy-char" class="anime-character" viewBox="0 0 100 200">
-                <path d="M50,30 L30,90 L45,90 L35,160 L70,80 L52,80 Z" fill="#00f0ff"/>
-                <circle cx="50" cy="25" r="12" fill="#00f0ff"/>
+        <div id="anime-shockwave-container">
+            <svg id="anime-boy" class="anime-vector" viewBox="0 0 100 200">
+                <path d="M50,40 L25,110 L45,110 L30,190 L80,100 L55,100 Z" fill="url(#blue-grad)"/>
+                <circle cx="50" cy="30" r="15" fill="#00f0ff"/>
+                <defs>
+                    <linearGradient id="blue-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#00f0ff" />
+                        <stop offset="100%" stop-color="#0055ff" />
+                    </linearGradient>
+                </defs>
             </svg>
-            <svg id="girl-char" class="anime-character" viewBox="0 0 100 200">
-                <path d="M50,30 L30,90 L45,90 L35,160 L70,80 L52,80 Z" fill="#ff007f"/>
-                <circle cx="50" cy="25" r="12" fill="#ff007f"/>
+            <svg id="anime-girl" class="anime-vector" viewBox="0 0 100 200">
+                <path d="M50,40 L25,110 L45,110 L30,190 L80,100 L55,100 Z" fill="url(#pink-grad)"/>
+                <circle cx="50" cy="30" r="15" fill="#ff007f"/>
+                <defs>
+                    <linearGradient id="pink-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#ff007f" />
+                        <stop offset="100%" stop-color="#770033" />
+                    </linearGradient>
+                </defs>
             </svg>
-            <div class="power-text" id="power-phrase">HERE WE GO.</div>
-            <div class="energy-crack" id="flash-bang"></div>
+            <div class="here-we-go-banner" id="shout-box">HERE WE GO.</div>
+            <div class="color-burst-wipe" id="flash-bang"></div>
         </div>
     </div>
 
-    <main id="main-vertical-scroll">
-        <div id="webgl-main-container"></div>
-
-        <div class="scroll-content-wrapper">
+    <main id="main-vertical-archive">
+        <div class="content-container">
             
-            <section class="scroll-section" id="sec-weaver">
-                <div class="section-tag">// The Weaver of Secrets</div>
-                <h1 class="poetic-header">If loving you were a bad investment, then I gladly accept bankruptcy.</h1>
-                <p class="poetic-body">Welcome to the inner vault. Every vector and letter here was spun directly from the source material of you.</p>
-            </section>
-
-            <section class="scroll-section" id="sec-key">
-                <div class="token-key-box">
-                    <div class="section-tag" style="color: var(--neon-cyan);">// The Matrix Key</div>
-                    <h1 class="poetic-header" style="font-size: 1.8rem;">A digital botanical token that lives entirely in a link.</h1>
-                    <p class="poetic-body">This parameter anchors your customized chambers together. It holds the coordinates to everything left behind.</p>
-                    <a href="#chambers" class="chamber-link">STEP INTO THE ATELIER →</a>
+            <section class="archive-section" id="section-royal-scroll">
+                <div class="section-label">// Section 01 // Beloved Devotion</div>
+                <div class="scroll-viewport">
+                    <div class="scroll-roller roller-top"></div>
+                    <div class="poem-wrapper">
+                        <p class="poem-line">"If loving you were a bad investment, then I gladly accept bankruptcy."</p>
+                        <p class="poem-line">"I have spent entire evenings thinking of sentences you would never hear, poems you would never read, flowers you would never receive..."</p>
+                        <p class="poem-line">"...and somehow I still consider myself fortunate because before you, the world was merely a place, after you it became source material."</p>
+                        <p class="poem-line">"Every sunset wanted to be compared to you, every song wanted to belong to you, every poem secretly wanted your name."</p>
+                        <p class="poem-line">"You are responsible for an unreasonable amount of my imagination, and honestly, I refuse to sue."</p>
+                    </div>
+                    <div class="scroll-roller roller-bottom"></div>
                 </div>
             </section>
 
-            <section class="scroll-section" id="sec-historic">
-                <div class="section-tag">// Collected Fragments</div>
-                <h1 class="poetic-header">Once upon a time, people pressed flowers between pages.</h1>
-                <p class="poetic-body">And I was exactly 16 when I began collecting things. Collecting moments, shapes, and phrases, preserving them entirely inside this digital glass house.</p>
+            <section class="archive-section" id="section-weaver">
+                <div class="section-label">// Section 02 // The Weaver of Secrets</div>
+                <div class="weaver-card">
+                    <p class="weaver-prose">"I was 16 when I began collecting things that could not be touched. Missed conversations, half-written letters, unsent confessions, the strange ache of loving someone from a distance."</p>
+                    <p class="weaver-prose">"I noticed that people spent fortunes on flowers that wilt in days. Yet the smallest message can remain alive for years. So I built a garden that does not die. A place where affection can bloom inside a link. Where a memory can be folded into a letter. Where a flower can carry a voice. Where a simple gift can become a tiny universe."</p>
+                    <p class="weaver-prose" style="font-weight: bold; font-style: italic;">"I am not a florist. I do not arrange roses. I arrange feelings."</p>
+                    
+                    <h2 class="brand-welcome-accent">Welcome to Cipher Giftyy.</h2>
+
+                    <div class="apex-portal-anchor">
+                        <button class="apex-btn">APEX</button>
+                        <p class="apex-subtext">"For the words too heavy to carry and too beautiful to leave unsaid."</p>
+                    </div>
+                </div>
             </section>
 
-            <section class="scroll-section" id="sec-source">
-                <div class="section-tag">// Source Material</div>
-                <h1 class="poetic-header" style="font-style: italic;">"Before you, the world was merely a place. After you, it became source material."</h1>
+            <section class="archive-section" id="section-attention">
+                <div class="section-label">// Section 03 // Why Gifts Matter</div>
+                <div class="attention-layout">
+                    <p class="attention-statement">"The small things we remember. Nobody remembers every conversation. Nobody remembers every day..."</p>
+                    <p class="attention-statement" style="font-weight: bold; color: var(--neon-pink);">"...but somehow years later we remember the flower, the letter, the photograph, the song, the tiny gesture that quietly said, 'I thought about you when you were not here.'"</p>
+                    <p class="attention-statement">"Gifts are not proof of love, they are evidence of attention, and sometimes attention is the purest form of affection."</p>
+                </div>
             </section>
 
         </div>
+
+        <footer class="master-vault-footer">
+            <p class="footer-longing-signature">"Made from longing, curiosity, and entirely too much imagination."</p>
+        </footer>
     </main>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // --- ENGINE 1: 3D SPACE GATEWAY (THREE.JS) ---
-        const introContainer = document.getElementById('webgl-intro-container');
-        const introScene = new THREE.Scene();
-        const introCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-        introCamera.position.z = 5;
-
-        const introRenderer = new THREE.WebGLRenderer({ antialias: true });
-        introRenderer.setSize(window.innerWidth, window.innerHeight);
-        introRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        introContainer.appendChild(introRenderer.domElement);
-
-        // Ambient Dark Stardust Array
-        const pCount = 1500;
-        const pGeom = new THREE.BufferGeometry();
-        const pPos = new Float32Array(pCount * 3);
-        for(let i=0; i<pCount*3; i++) { pPos[i] = (Math.random() - 0.5) * 10; }
-        pGeom.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-        const pMat = new THREE.PointsMaterial({ size: 0.03, color: 0xff007f, transparent: true, opacity: 0.6 });
-        const stars = new THREE.Points(pGeom, pMat);
-        introScene.add(stars);
-
-        // Centered Polyhedral Crypto Crystal Box
-        const crystalGeom = new THREE.IcosahedronGeometry(0.9, 1);
-        const crystalMat = new THREE.MeshBasicMaterial({ color: 0xff007f, wireframe: true, transparent: true, opacity: 0.3 });
-        const crystal = new THREE.Mesh(crystalGeom, crystalMat);
-        introScene.add(crystal);
-
-        function animateIntro() {
-            if (introRenderer) {
-                requestAnimationFrame(animateIntro);
-                const time = Date.now() * 0.001;
-                crystal.rotation.y = time * 0.2;
-                crystal.position.y = Math.sin(time * 1.5) * 0.1;
-                stars.rotation.z = time * 0.01;
-                introRenderer.render(introScene, introCamera);
-            }
-        }
-        animateIntro();
-
-        // --- ENGINE 2: ANIME WARP INTERACTION SYSTEM ---
-        function igniteAnimeWarp() {
-            // Fade out initial overlay setup UI
-            gsap.to('#gateway-ui', { opacity: 0, y: -40, duration: 0.6 });
+        // --- STAGE 2: ANIME ENERGY IGNITION ANIMATION ENGINE ---
+        function triggerAnimeShockwave() {
+            // Fade out the basic gateway wrapper UI elements
+            gsap.to('.gateway-card', { opacity: 0, y: -50, duration: 0.5 });
             
-            // Shrink down initial crystal box
-            gsap.to(crystal.scale, { x: 0, y: 0, z: 0, duration: 0.5 });
-
             setTimeout(() => {
-                document.getElementById('anime-transition-container').style.display = 'block';
+                document.getElementById('anime-shockwave-container').style.display = 'block';
                 
-                // WALK ANIMATION: Characters glide in forcefully from sides
-                gsap.to('#boy-char', { left: '15%', opacity: 1, duration: 1.2, ease: "power3.out" });
-                gsap.to('#girl-char', { right: '15%', opacity: 1, duration: 1.2, ease: "power3.out" });
+                // FORCEFUL CHARACTER ENTRY WALK: Slide into space parameters
+                gsap.to('#anime-boy', { left: '12%', opacity: 1, duration: 1, ease: "power4.out" });
+                gsap.to('#anime-girl', { right: '12%', opacity: 1, duration: 1, ease: "power4.out" });
 
-                // Text phrase pops up intensely
-                gsap.to('#power-phrase', { 
-                    opacity: 1, scale: 1, duration: 0.8, delay: 0.6, ease: "back.out(1.7)",
+                // Scale up the anime battle cry phrase banner
+                gsap.to('#shout-box', { 
+                    opacity: 1, scale: 1, duration: 0.7, delay: 0.4, ease: "back.out(1.5)",
                     onComplete: () => {
-                        // TRIGGER THE EXPLOSION SHOCKWAVE
+                        // SHOCKWAVE EXPLOSION FLASH RENDER
                         gsap.to('#flash-bang', {
-                            opacity: 1, duration: 0.1, yoyo: true, repeat: 3,
+                            opacity: 1, duration: 0.1, yoyo: true, repeat: 4,
                             onComplete: () => {
-                                // Wipe out Stage 1 viewport entirely
-                                document.getElementById('intro-viewport').style.display = 'none';
-                                initMainVerticalSite();
+                                // Wipe Stage 1/2 viewport completely off the stack
+                                document.getElementById('gateway-viewport').style.display = 'none';
+                                loadMainVerticalSite();
                             }
                         });
                     }
                 });
-            }, 500);
+            }, 400);
         }
 
-        // --- ENGINE 3: THE MAIN VERTICAL LIGHT ROOM SCROLL ---
-        let mainScene, mainCamera, mainRenderer, giftBox;
-
-        function initMainVerticalSite() {
-            document.getElementById('main-vertical-scroll').style.display = 'block';
+        // --- STAGE 3: SCROLL-TRIGGERED TIMELINE LOGIC ---
+        function loadMainVerticalSite() {
+            document.getElementById('main-vertical-archive').style.display = 'block';
             
-            // Build the light-room WebGL context
-            const mainContainer = document.getElementById('webgl-main-container');
-            mainScene = new THREE.Scene();
-            mainCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-            mainCamera.position.z = 5;
+            // Re-initialize ScrollTrigger markers
+            ScrollTrigger.refresh();
 
-            mainRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            mainRenderer.setSize(window.innerWidth, window.innerHeight);
-            mainContainer.appendChild(mainRenderer.domElement);
-
-            // Create a gorgeous 3D Geometric Gift Box
-            const boxGroup = new THREE.Group();
-            const lowerGeom = new THREE.BoxGeometry(1.2, 1.0, 1.2);
-            const boxMat = new THREE.MeshBasicMaterial({ color: 0xff007f, wireframe: true });
-            const lowerMesh = new THREE.Mesh(lowerGeom, boxMat);
-            boxGroup.add(lowerMesh);
-
-            // Separate lid geometry so we can open it live on scroll!
-            const lidGeom = new THREE.BoxGeometry(1.3, 0.3, 1.3);
-            const lidMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true });
-            const lidMesh = new THREE.Mesh(lidGeom, lidMat);
-            lidMesh.position.y = 0.65;
-            boxGroup.add(lidMesh);
-
-            mainScene.add(boxGroup);
-
-            function animateMain() {
-                requestAnimationFrame(animateMain);
-                boxGroup.rotation.y += 0.005;
-                mainRenderer.render(mainScene, mainCamera);
-            }
-            animateMain();
-
-            // GSAP SCROLLTRIGGER PIPELINE FOR LONG PAGE SECTIONS
-            const sections = document.querySelectorAll('.scroll-section');
-            sections.forEach((sec, idx) => {
-                gsap.to(sec, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    scrollTrigger: {
-                        trigger: sec,
-                        start: "top 75%",
-                        end: "top 25%",
-                        toggleActions: "play none none reverse"
-                    }
+            // Dynamic Scroll Reveal tracking for the Royal Scroll Poem Lines
+            const lines = document.querySelectorAll('.poem-line');
+            lines.forEach((line, index) => {
+                ScrollTrigger.create({
+                    trigger: line,
+                    start: "top 80%",
+                    onEnter: () => line.classList.add('revealed'),
+                    toggleActions: "play none none reverse"
                 });
             });
 
-            // LIVE SCROLL DRIVEN ANIMATION: Open the 3D Gift box lid as you scroll down the page!
-            gsap.to(lidMesh.position, {
-                y: 2.5,
-                x: 1.0,
+            // Cinematic fade-ins for Section 2 (The Weaver Archive Card)
+            gsap.from('.weaver-card', {
+                opacity: 0,
+                y: 60,
+                duration: 1.2,
+                ease: "power3.out",
                 scrollTrigger: {
-                    trigger: "#main-vertical-scroll",
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: true
+                    trigger: '.weaver-card',
+                    start: "top 75%",
                 }
             });
-            gsap.to(boxGroup.rotation, {
-                z: 2.0,
-                scrollTrigger: {
-                    trigger: "#main-vertical-scroll",
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: true
-                }
+
+            // Gentle sequential reveals for Section 3 (Evidence Statements)
+            const statements = document.querySelectorAll('.attention-statement');
+            statements.forEach((stmt, i) => {
+                gsap.from(stmt, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    delay: i * 0.2,
+                    scrollTrigger: {
+                        trigger: stmt,
+                        start: "top 85%",
+                    }
+                });
             });
         }
-
-        // Global layout adjustment handler
-        window.addEventListener('resize', () => {
-            if(introRenderer) {
-                introCamera.aspect = window.innerWidth / window.innerHeight;
-                introCamera.updateProjectionMatrix();
-                introRenderer.setSize(window.innerWidth, window.innerHeight);
-            }
-            if(mainRenderer) {
-                mainCamera.aspect = window.innerWidth / window.innerHeight;
-                mainCamera.updateProjectionMatrix();
-                mainRenderer.setSize(window.innerWidth, window.innerHeight);
-            }
-        });
     </script>
 </body>
 </html>
