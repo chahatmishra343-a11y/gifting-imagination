@@ -13,10 +13,14 @@
             --pastel-pink: #ffeef2;
             --pastel-blue: #eef7ff;
             --pastel-peach: #fff3eb;
-            --neon-pink: #ff007f;
-            --neon-cyan: #00f0ff;
+            --glass-pink: rgba(255, 238, 242, 0.7);
+            --neon-pink: #ff66a3;
+            --neon-cyan: #66e0ff;
             --gold: #d4af37;
             --charcoal: #232329;
+            --gradient-sky: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            --gradient-peach: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+            --vibrant-pink: #f472b6;
         }
 
         * {
@@ -28,7 +32,7 @@
         body, html {
             width: 100%;
             font-family: 'Georgia', serif;
-            background-color: #05050a;
+            background-color: var(--pastel-blue);
             color: var(--charcoal);
             overflow-x: hidden;
             scroll-behavior: smooth;
@@ -42,7 +46,7 @@
             width: 100vw;
             height: 100vh;
             z-index: 100;
-            background: linear-gradient(135deg, #070714 0%, #020205 100%);
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffedd5 50%, #ffe4e6 100%);
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -54,65 +58,70 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(rgba(255, 0, 127, 0.15) 1px, transparent 0),
-                              radial-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 0);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+            background-image: radial-gradient(rgba(244, 114, 182, 0.15) 2px, transparent 0),
+                              radial-gradient(rgba(56, 189, 248, 0.1) 2px, transparent 0);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
             animation: drift 20s linear infinite;
             z-index: 1;
         }
 
         @keyframes drift {
-            from { background-position: 0 0, 20px 20px; }
-            to { background-position: 40px 40px, 60px 60px; }
+            from { background-position: 0 0, 30px 30px; }
+            to { background-position: 60px 60px, 90px 90px; }
         }
 
         .gateway-card {
             position: relative;
             z-index: 10;
             text-align: center;
-            padding: 40px;
-            max-width: 600px;
+            padding: 50px;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
         }
 
         .main-brand-title {
-            font-family: 'Courier New', monospace;
-            font-size: 2.2rem;
-            letter-spacing: 12px;
-            color: #ffffff;
+            font-family: 'Georgia', serif;
+            font-size: 3rem;
+            letter-spacing: 8px;
+            color: var(--charcoal);
             font-weight: 900;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .gateway-quote {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.75);
+            font-size: 1.2rem;
+            color: #4b5563;
             line-height: 1.8;
             margin-bottom: 40px;
             font-style: italic;
         }
 
         .arc-btn {
-            background: transparent;
-            border: 2px solid rgba(255, 0, 127, 0.5);
+            background: linear-gradient(135deg, #f472b6, #38bdf8);
+            border: none;
             color: #ffffff;
             padding: 16px 50px;
             font-family: 'Courier New', monospace;
-            font-size: 1rem;
+            font-size: 1.1rem;
             letter-spacing: 6px;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.2);
+            box-shadow: 0 10px 30px rgba(244, 114, 182, 0.4);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .arc-btn:hover {
-            background: var(--neon-pink);
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 40px var(--neon-pink);
-            transform: scale(1.1);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.6);
+            background: linear-gradient(135deg, #38bdf8, #f472b6);
         }
 
         /* --- ANIME POWER LAYER SETUP --- */
@@ -124,32 +133,34 @@
             height: 100%;
             z-index: 20;
             display: none;
-            background: radial-gradient(circle, #fff5f7 0%, #eef9ff 100%);
+            background: radial-gradient(circle at center, #ffffff 0%, var(--pastel-peach) 50%, var(--pastel-blue) 100%);
+            overflow: hidden;
         }
 
         .anime-vector {
             position: absolute;
-            bottom: -100px;
-            height: 90vh;
+            bottom: -50px;
+            height: 85vh;
             width: auto;
             opacity: 0;
             z-index: 25;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
         }
 
-        #anime-boy { left: -300px; }
-        #anime-girl { right: -300px; }
+        #anime-boy { left: -400px; }
+        #anime-girl { right: -400px; }
 
         .here-we-go-banner {
             position: absolute;
             top: 45%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.3);
-            font-family: 'Courier New', monospace;
-            font-size: 4rem;
+            font-family: 'Georgia', serif;
+            font-size: 5rem;
             font-weight: 900;
-            letter-spacing: 10px;
-            color: var(--charcoal);
-            text-shadow: 0 0 30px rgba(255,0,127,0.4), 0 0 60px rgba(0,240,255,0.4);
+            letter-spacing: 12px;
+            color: #ffffff;
+            text-shadow: 0 5px 20px rgba(244, 114, 182, 0.6), 0 10px 40px rgba(56, 189, 248, 0.6);
             opacity: 0;
             z-index: 30;
             text-align: center;
@@ -157,9 +168,13 @@
 
         .color-burst-wipe {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #ffffff;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(244,114,182,0.8) 40%, rgba(56,189,248,0.6) 80%, rgba(255,255,255,0) 100%);
             z-index: 40;
             opacity: 0;
             pointer-events: none;
@@ -176,9 +191,9 @@
 
         .content-container {
             width: 100%;
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 80px 24px;
+            padding: 100px 24px;
         }
 
         /* Generic Section Base Settings */
@@ -189,91 +204,112 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            margin-bottom: 10vh;
+            margin-bottom: 15vh;
         }
 
         .section-label {
             font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 5px;
-            color: var(--neon-pink);
+            font-size: 0.9rem;
+            letter-spacing: 6px;
+            color: var(--vibrant-pink);
             text-transform: uppercase;
-            font-weight: 900;
-            margin-bottom: 30px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         /* --- SECTION 1: THE ROYAL SCROLL PARCHMENT ARCHITECTURE --- */
+        .scroll-viewport-container {
+            width: 100%;
+            max-width: 750px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .scroll-viewport {
             width: 100%;
-            max-width: 700px;
             background: #fffdf9;
-            border-left: 4px double rgba(212, 175, 55, 0.3);
-            border-right: 4px double rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
-            border-radius: 8px;
-            padding: 60px 40px;
+            background-image: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E');
+            border-left: 6px double rgba(212, 175, 55, 0.4);
+            border-right: 6px double rgba(212, 175, 55, 0.4);
+            box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.1), 0 20px 50px rgba(0,0,0,0.08);
+            border-radius: 4px;
+            padding: 40px 50px;
             position: relative;
             overflow: hidden;
+            height: 0px; /* Will be animated to open */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Royal Roller Bars */
         .scroll-roller {
-            position: absolute;
-            left: 5%;
-            width: 90%;
-            height: 12px;
-            background: linear-gradient(90deg, #664614 0%, #b8860b 50%, #664614 100%);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            width: 104%;
+            height: 24px;
+            background: linear-gradient(180deg, #b8860b 0%, #ffd700 30%, #daa520 70%, #8b6508 100%);
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2), inset 0 2px 5px rgba(255,255,255,0.5);
             z-index: 5;
+            position: relative;
         }
-        .roller-top { top: 10px; }
-        .roller-bottom { bottom: 10px; }
+
+        .roller-top {
+            margin-bottom: -12px;
+        }
+
+        .roller-bottom {
+            margin-top: -12px;
+        }
+
+        .scroll-knob {
+            position: absolute;
+            top: -4px;
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle, #ffd700 0%, #b8860b 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .scroll-knob.left { left: -16px; }
+        .scroll-knob.right { right: -16px; }
 
         .poem-wrapper {
             text-align: center;
+            width: 100%;
+            opacity: 0; /* Revealed as scroll opens */
         }
 
-        .poem-line {
-            font-size: 1.4rem;
-            line-height: 2;
-            color: #2b2b2b;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease;
-        }
-
-        .poem-line.revealed {
-            opacity: 1;
-            transform: translateY(0);
+        .poem-content {
+            font-size: 1.5rem;
+            line-height: 2.2;
+            color: #332a22;
+            font-family: 'Georgia', serif;
+            font-style: italic;
         }
 
         /* --- SECTION 2: THE WEAVER OF SECRETS ARCHIVE --- */
         .weaver-card {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            border-radius: 32px;
-            padding: 60px 45px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.03);
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 40px;
+            padding: 70px 50px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05), inset 0 0 20px rgba(255,255,255,0.5);
             text-align: center;
         }
 
         .weaver-prose {
-            font-size: 1.25rem;
-            line-height: 2;
-            color: #3a3a42;
-            margin-bottom: 30px;
+            font-size: 1.3rem;
+            line-height: 2.1;
+            color: #332a22;
+            margin-bottom: 0;
             font-weight: 400;
-        }
-
-        .brand-welcome-accent {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1a1a1f;
-            margin: 40px 0;
-            letter-spacing: 2px;
+            text-align: center;
         }
 
         /* The Shimmering Apex Navigation Mechanism */
@@ -282,33 +318,33 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            margin-top: 40px;
+            margin-top: 60px;
         }
 
         .apex-btn {
-            background: #111115;
+            background: linear-gradient(135deg, #f472b6, #38bdf8);
             color: #ffffff;
             border: none;
             padding: 18px 55px;
             font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            letter-spacing: 8px;
+            font-size: 1.2rem;
+            letter-spacing: 10px;
             font-weight: 900;
             border-radius: 50px;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(244, 114, 182, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .apex-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(255, 0, 127, 0.3);
-            background: var(--neon-pink);
+            transform: scale(1.05) translateY(-4px);
+            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.6);
+            background: linear-gradient(135deg, #38bdf8, #f472b6);
         }
 
         .apex-subtext {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-style: italic;
             color: #666670;
             letter-spacing: 1px;
@@ -319,15 +355,17 @@
         /* --- SECTION 3: EVIDENCE OF ATTENTION CHASSIS --- */
         .attention-layout {
             text-align: center;
-            max-width: 750px;
+            max-width: 800px;
         }
 
         .attention-statement {
             font-size: 1.6rem;
-            line-height: 1.9;
-            color: #1a1a1f;
+            line-height: 2.1;
+            color: #332a22;
             font-weight: 400;
             margin-bottom: 45px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
         }
 
         /* --- IMMERSIVE MASTER FOOTER LOGIC --- */
@@ -389,30 +427,36 @@
             
             <section class="archive-section" id="section-royal-scroll">
                 <div class="section-label">// Section 01 // Beloved Devotion</div>
-                <div class="scroll-viewport">
-                    <div class="scroll-roller roller-top"></div>
-                    <div class="poem-wrapper">
-                        <p class="poem-line">"If loving you were a bad investment, then I gladly accept bankruptcy."</p>
-                        <p class="poem-line">"I have spent entire evenings thinking of sentences you would never hear, poems you would never read, flowers you would never receive..."</p>
-                        <p class="poem-line">"...and somehow I still consider myself fortunate because before you, the world was merely a place, after you it became source material."</p>
-                        <p class="poem-line">"Every sunset wanted to be compared to you, every song wanted to belong to you, every poem secretly wanted your name."</p>
-                        <p class="poem-line">"You are responsible for an unreasonable amount of my imagination, and honestly, I refuse to sue."</p>
+                <div class="scroll-viewport-container">
+                    <div class="scroll-roller roller-top">
+                        <div class="scroll-knob left"></div>
+                        <div class="scroll-knob right"></div>
                     </div>
-                    <div class="scroll-roller roller-bottom"></div>
+
+                    <div class="scroll-viewport" id="royal-parchment">
+                        <div class="poem-wrapper" id="poem-content">
+                            <p class="poem-content">
+                                "If loving you were a bad investment, then I gladly accept bankruptcy. I have spent entire evenings thinking of sentences you would never hear, poems you would never read, flowers you would never receive, and somehow I still consider myself fortunate because before you, the world was merely a place, after you it became source material. Every sunset wanted to be compared to you, every song wanted to belong to you, every poem secretly wanted your name. You are responsible for an unreasonable amount of my imagination, and honestly, I refuse to sue."
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="scroll-roller roller-bottom">
+                        <div class="scroll-knob left"></div>
+                        <div class="scroll-knob right"></div>
+                    </div>
                 </div>
             </section>
 
             <section class="archive-section" id="section-weaver">
                 <div class="section-label">// Section 02 // The Weaver of Secrets</div>
                 <div class="weaver-card">
-                    <p class="weaver-prose">"I was 16 when I began collecting things that could not be touched. Missed conversations, half-written letters, unsent confessions, the strange ache of loving someone from a distance."</p>
-                    <p class="weaver-prose">"I noticed that people spent fortunes on flowers that wilt in days. Yet the smallest message can remain alive for years. So I built a garden that does not die. A place where affection can bloom inside a link. Where a memory can be folded into a letter. Where a flower can carry a voice. Where a simple gift can become a tiny universe."</p>
-                    <p class="weaver-prose" style="font-weight: bold; font-style: italic;">"I am not a florist. I do not arrange roses. I arrange feelings."</p>
-                    
-                    <h2 class="brand-welcome-accent">Welcome to Cipher Giftyy.</h2>
+                    <p class="weaver-prose">
+                        "I was 16 when I began collecting things that could not be touched. Missed conversations, half-written letters, unsent confessions, the strange ache of loving someone from a distance. I noticed that people spent fortunes on flowers that wilt in days. Yet the smallest message can remain alive for years. So I built a garden that does not die. A place where affection can bloom inside a link. Where a memory can be folded into a letter. Where a flower can carry a voice. Where a simple gift can become a tiny universe. I am not a florist. I do not arrange roses. I arrange feelings. Welcome to Cipher Giftyy."
+                    </p>
 
                     <div class="apex-portal-anchor">
-                        <button class="apex-btn">APEX</button>
+                        <button class="apex-btn">[ APEX ]</button>
                         <p class="apex-subtext">"For the words too heavy to carry and too beautiful to leave unsaid."</p>
                     </div>
                 </div>
@@ -421,9 +465,9 @@
             <section class="archive-section" id="section-attention">
                 <div class="section-label">// Section 03 // Why Gifts Matter</div>
                 <div class="attention-layout">
-                    <p class="attention-statement">"The small things we remember. Nobody remembers every conversation. Nobody remembers every day..."</p>
-                    <p class="attention-statement" style="font-weight: bold; color: var(--neon-pink);">"...but somehow years later we remember the flower, the letter, the photograph, the song, the tiny gesture that quietly said, 'I thought about you when you were not here.'"</p>
-                    <p class="attention-statement">"Gifts are not proof of love, they are evidence of attention, and sometimes attention is the purest form of affection."</p>
+                    <p class="attention-statement">
+                        "The small things we remember. Nobody remembers every conversation. Nobody remembers every day, but somehow years later we remember the flower, the letter, the photograph, the song, the tiny gesture that quietly said, 'I thought about you when you were not here.' Gifts are not proof of love, they are evidence of attention, and sometimes attention is the purest form of affection."
+                    </p>
                 </div>
             </section>
 
@@ -451,9 +495,12 @@
                 gsap.to('#shout-box', { 
                     opacity: 1, scale: 1, duration: 0.7, delay: 0.4, ease: "back.out(1.5)",
                     onComplete: () => {
-                        // SHOCKWAVE EXPLOSION FLASH RENDER
+                        // SHOCKWAVE EXPLOSION WATERCOLOR BURST
                         gsap.to('#flash-bang', {
-                            opacity: 1, duration: 0.1, yoyo: true, repeat: 4,
+                            opacity: 1,
+                            scale: 300,
+                            duration: 1.2,
+                            ease: "power2.in",
                             onComplete: () => {
                                 // Wipe Stage 1/2 viewport completely off the stack
                                 document.getElementById('gateway-viewport').style.display = 'none';
@@ -472,15 +519,22 @@
             // Re-initialize ScrollTrigger markers
             ScrollTrigger.refresh();
 
-            // Dynamic Scroll Reveal tracking for the Royal Scroll Poem Lines
-            const lines = document.querySelectorAll('.poem-line');
-            lines.forEach((line, index) => {
-                ScrollTrigger.create({
-                    trigger: line,
-                    start: "top 80%",
-                    onEnter: () => line.classList.add('revealed'),
-                    toggleActions: "play none none reverse"
-                });
+            // Dynamic Scroll Reveal tracking for the Royal Scroll Parchment
+            // As user scrolls, expand the height to reveal the poem and roll pipes
+            gsap.to('#royal-parchment', {
+                height: "auto",
+                minHeight: "400px",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#section-royal-scroll",
+                    start: "top center",
+                    end: "bottom center",
+                    scrub: true,
+                    onUpdate: (self) => {
+                        // Fade in the text as the parchment opens
+                        gsap.to('#poem-content', { opacity: self.progress > 0.3 ? 1 : 0, duration: 0.2 });
+                    }
+                }
             });
 
             // Cinematic fade-ins for Section 2 (The Weaver Archive Card)
